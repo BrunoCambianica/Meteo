@@ -60,7 +60,5 @@ export default StackNavigator({
     Result: {
         screen: List,
         navigationOptions
-    },
-    
-    
+    }
 })

@@ -10,9 +10,10 @@ export default class Row extends React.Component {
 
     constructor(props) {
         super(props)
-        let { width } = Dimensions.get('window')
+        const { height, width } = Dimensions.get('window')
         this.state = {
-            widthScreen: width
+            widthScreen: width,
+            heightScreen: height
         }
         console.log(this.state.widthScreen)
     }
@@ -50,7 +51,7 @@ export default class Row extends React.Component {
         )
     }
 
-    icon(widthI = 60, heightI = 60) {
+    icon(widthI = 50, heightI = 50) {
         const type = this.props.day.weather[0].main.toLowerCase()
         let image
         switch (type) {
@@ -75,19 +76,49 @@ export default class Row extends React.Component {
         )
     }
 
+    background() {
+        const type = this.props.day.weather[0].main.toLowerCase()
+        let image
+        switch (type) {
+            case 'clear':
+                color = '#b3d9ff'
+                break;
+            case 'rain':
+                color = 'grey'
+                break;
+            case 'snow':
+                color = '#e6e6e6'
+                break;
+            case 'clouds':
+                color = 'lightgrey'
+                break;
+
+            default:
+                break;
+        }
+        return (
+            { backgroundColor: color }
+        )
+    }
+
     render() {
+        // Meteo instantanée ici
         if (this.props.index === 0) {
             return (
                 <Effects delay={this.props.index * 50}>
-                    <View style={[style.view]}>
-                        {this.icon(widthI = this.state.widthScreen)}
-                        <View style={[style.first, { position: 'absolute', top: 0, left: 0 }]}>
-                            <Text style={style.first}>
-                                {this.day()} {this.date()} {this.hour()}
+                    <View style={this.background()}>
+                        {this.icon(widthI = this.state.widthScreen, heightI = this.state.heightScreen / 1.4)}
+                        <View style={[style.first, { position: 'absolute', top: 0, left: 0, flex: 1, flexDirection: 'column'  }]}>
+                            <Text style={[style.day]}>
+                                {this.day()} {this.date()}
                             </Text>
-                            <Text style={[style.temp, style.first]}>
-                                {Math.round(this.props.day.main.temp - 273.15)}  °C
+                            <Text style={[style.temp]}>
+                                {Math.round(this.props.day.main.temp - 273.15)} °
                             </Text>
+                            <Text style={[style.hour]}>
+                                {this.hour()}
+                            </Text>
+
                         </View>
 
                     </View>
@@ -107,9 +138,11 @@ export default class Row extends React.Component {
                                     {this.hour()}
                                 </Text>
                             </View>
-                            {this.icon()}
-                            <Text style={style.temp}>
-                                {Math.round(this.props.day.main.temp - 273.15)}  °C
+                            <View style={[{ justifyContent: 'space-between' }, style.icon]}>
+                                {this.icon()}
+                            </View>
+                            <Text style={style.temp2}>
+                                {Math.round(this.props.day.main.temp - 273.15)} °
                             </Text>
 
                         </View>
@@ -123,6 +156,9 @@ export default class Row extends React.Component {
 }
 
 const style = StyleSheet.create({
+    background: {
+        backgroundColor: 'skyblue'
+    },
     hour: {
         fontSize: 20,
         fontWeight: 'bold'
@@ -139,20 +175,48 @@ const style = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: 'lightblue',
         paddingHorizontal: 20,
-        paddingVertical: 10,
+        paddingVertical: 20,
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
     },
     first: {
-        fontSize: 30,
-        marginLeft: 50
+        // fontSize: 30,
+        marginLeft: 50,
+        borderWidth: 0,
+        // borderBottomWidth: 1,
+        // borderBottomColor: 'white',
+        paddingHorizontal: 20,
+        paddingVertical: 20,
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
     temp: {
+        marginLeft: '30%',
         color: 'white',
         fontWeight: 'bold',
-        fontSize: 22
+        fontSize: 65
+    },
+    temp2: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 28
+    },
+    day: {
+        marginTop: '50%',
+        marginLeft: '25%',
+        color: 'white',
+        fontWeight: 'normal',
+        fontSize: 20
+    },
+    hour: {
+        marginLeft: '5%',
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 20
     }
 
 })

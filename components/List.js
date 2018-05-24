@@ -18,9 +18,10 @@ export default class List extends React.Component {
         console.log( 'bonjour ' + this.props.navigation.state.params.city)
     }
 
+
     // static navigationOptions = ({ navigation }) => {
     //     title: `Météo / ${navigation.state.params.city}`
-    //     // title: 'Météo / Paris '
+    //     title: 'Météo / Paris '
     // }
 
     fetchWeather() {
@@ -54,4 +55,9 @@ export default class List extends React.Component {
         }
 
     }
+}
+
+const navigationOptions = {
+    headerStyle: style.listHeader,
+    headerTitleStyle: style.listHeader
 }
