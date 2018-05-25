@@ -6,6 +6,11 @@ import Row from './weather/Row'
 
 export default class List extends React.Component {
 
+    // static navigationOptions = { 
+    //     title: 'Welcome',
+    //     header: { visible:false } 
+    // };
+
     constructor(props) {
         super(props)
         this.state = {
@@ -14,15 +19,12 @@ export default class List extends React.Component {
             report: null
         }
         this.fetchWeather()
-        console.log(this.state.city)
-        console.log( 'bonjour ' + this.props.navigation.state.params.city)
     }
 
 
-    // static navigationOptions = ({ navigation }) => {
-    //     title: `Météo / ${navigation.state.params.city}`
-    //     title: 'Météo / Paris '
-    // }
+    static navigationOptions = ({ navigation }) => {
+        title: `Météo / ${navigation.state.params.city}`
+    }
 
     fetchWeather() {
         axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=${this.state.city}&APPID=c054e572e539272999b9e011e63ae762`)
@@ -49,7 +51,8 @@ export default class List extends React.Component {
             return (
                 <ListView
                     dataSource={ds.cloneWithRows(this.state.report.list)}
-                    renderRow={(row, j, k) => <Row day={row} index={parseInt(k, 10)} />}
+                    renderRow={(row, j, k) => <Row day={row} index={parseInt(k, 10)} city={this.state.city} />}
+
                 />
             )
         }
@@ -59,5 +62,10 @@ export default class List extends React.Component {
 
 const navigationOptions = {
     headerStyle: style.listHeader,
-    headerTitleStyle: style.listHeader
+    headerTitleStyle: style.listHeader,
+    // headerMode: 'none',
+    // navigationOptions: {
+    //     header: { visible: false }
+    // }
+    header: null
 }

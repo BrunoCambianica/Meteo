@@ -5,11 +5,11 @@ import style from '../Style'
 
 export default class About extends React.Component {
 
-    static navigationOptions = {
-        tabBarIcon: () => {
-            <Image source={require('../images/about.png')}> </Image>
-        }
-    }
+    // static navigationOptions = {
+    //     tabBarIcon: () => {
+    //         <Image source={require('../images/about.png')}> </Image>
+    //     }
+    // }
 
     search() {
         this.props.navigation.navigate('Search')

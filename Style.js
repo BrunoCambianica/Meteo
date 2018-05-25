@@ -17,13 +17,13 @@ export default {
         paddingHorizontal: 10
     },
     header: {
-        backgroundColor: 'skyblue',
+        backgroundColor: 'transparent',
     },
     headerTitle: {
-        color: 'white'
+        color: 'black'
     },
     listHeader:{
-        display: 'none'
+        backgroundColor: 'skyblue'
     },
 
 }

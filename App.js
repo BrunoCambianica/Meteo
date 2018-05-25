@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, StatusBar } from 'react-native'
-import { TabNavigator, StackNavigator, StackNavigatorConfig } from 'react-navigation'
+import { TabNavigator, StackNavigator, StackNavigatorConfig, createStackNavigator } from 'react-navigation'
+// import { Easing } from 'react-vr'
 
 import About from './components/About'
 import Search from './components/Search'
@@ -30,7 +31,17 @@ import Search from './components/Search'
 const Tabs = createStackNavigator({
   Search: { screen: Search },
   About: { screen: About },
-})
+},
+  {
+    header: null,
+    headerMode: 'none',
+    navigationOptions: {
+      headerMode: 'none',
+      headerVisible: false,
+    }
+
+  }
+)
 
 export default class App extends React.Component {
   render() {
@@ -43,10 +54,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     backgroundColor: '#fff',
-//     flex: 1
-//   },
-// });

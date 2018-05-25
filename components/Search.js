@@ -1,7 +1,7 @@
 import React from 'react'
 import { TextInput, Image, View, Button } from 'react-native'
 import style from '../Style'
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, createStackNavigator } from 'react-navigation';
 import List from './List'
 
 class Search extends React.Component {
@@ -49,16 +49,16 @@ class Search extends React.Component {
 
 const navigationOptions = {
     headerStyle: style.header,
-    headerTitleStyle: style.headerTitle
+    headerTitleStyle: style.headerTitle,
+    headerMode: 'none',
+    headerVisible: false,
+    // headerMode: 'none',
+    // navigationOptions: {
+    //     headerVisible: false,
+    // }
 }
 
-export default StackNavigator({
-    Search: {
-        screen: Search,
-        navigationOptions
-    },
-    Result: {
-        screen: List,
-        navigationOptions
-    }
+export default createStackNavigator({
+    Search: { screen: Search, navigationOptions },
+    Result: { screen: List, navigationOptions },
 })

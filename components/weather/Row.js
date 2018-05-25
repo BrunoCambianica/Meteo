@@ -13,9 +13,9 @@ export default class Row extends React.Component {
         const { height, width } = Dimensions.get('window')
         this.state = {
             widthScreen: width,
-            heightScreen: height
+            heightScreen: height,
+            city: this.props.city
         }
-        console.log(this.state.widthScreen)
     }
 
     static propTypes = {
@@ -76,6 +76,31 @@ export default class Row extends React.Component {
         )
     }
 
+    iconFirst(widthI, heightI) {
+        const type = this.props.day.weather[0].main.toLowerCase()
+        let image
+        switch (type) {
+            case 'clear':
+                image = require('../../images/png/first/sunnyfirst.png')
+                break;
+            case 'rain':
+                image = require('../../images/png/first/rainyfirst.png')
+                break;
+            case 'snow':
+                image = require('../../images/png/first/snowfirst.png')
+                break;
+            case 'clouds':
+                image = require('../../images/png/first/cloudyfirst.png')
+                break;
+
+            default:
+                break;
+        }
+        return (
+            <Image source={image} style={{ width: widthI, height: heightI, justifyContent: 'space-between' }} />
+        )
+    }
+
     background() {
         const type = this.props.day.weather[0].main.toLowerCase()
         let image
@@ -107,8 +132,11 @@ export default class Row extends React.Component {
             return (
                 <Effects delay={this.props.index * 50}>
                     <View style={this.background()}>
-                        {this.icon(widthI = this.state.widthScreen, heightI = this.state.heightScreen / 1.4)}
-                        <View style={[style.first, { position: 'absolute', top: 0, left: 0, flex: 1, flexDirection: 'column'  }]}>
+                        {this.iconFirst(widthI = this.state.widthScreen, heightI = this.state.heightScreen / 1.4)}
+                        <View style={[style.first, { position: 'absolute', top: 0, left: 0, flex: 1, flexDirection: 'column' }]}>
+                            <Text style={style.city}>
+                                 {this.state.city}
+                            </Text>
                             <Text style={[style.day]}>
                                 {this.day()} {this.date()}
                             </Text>
@@ -118,7 +146,12 @@ export default class Row extends React.Component {
                             <Text style={[style.hour]}>
                                 {this.hour()}
                             </Text>
-
+                        </View>
+                        <View style={[style.bottomInfo, { position: 'absolute', bottom: 0, left: 0, flex: 1, flexDirection: 'row' }]}>
+                            <Image source={require('../../images/hygrometer.png')} style={{ width: 18, height: 18, justifyContent: 'space-between' }} />
+                            <Text style={[style.bottomPolice, { marginHorizontal: 20 }]}>{this.props.day.main.humidity}</Text>
+                            <Image source={require('../../images/wind3.png')} style={{ width: 18, height: 18, justifyContent: 'space-between' }} />
+                            <Text style={[style.bottomPolice, { marginHorizontal: 20 }]}>{this.props.day.wind.speed}</Text>
                         </View>
 
                     </View>
@@ -195,7 +228,7 @@ const style = StyleSheet.create({
         alignItems: 'center'
     },
     temp: {
-        marginLeft: '30%',
+        marginLeft: '28%',
         color: 'white',
         fontWeight: 'bold',
         fontSize: 65
@@ -206,17 +239,32 @@ const style = StyleSheet.create({
         fontSize: 28
     },
     day: {
-        marginTop: '50%',
-        marginLeft: '25%',
+        marginTop: '42%',
+        marginLeft: '27%',
         color: 'white',
         fontWeight: 'normal',
         fontSize: 20
     },
     hour: {
-        marginLeft: '5%',
+        marginLeft: '12%',
         color: 'white',
         fontWeight: 'bold',
         fontSize: 20
+    },
+    bottomInfo: {
+        paddingHorizontal: '25%',
+        paddingVertical: '5%'
+    },
+    bottomPolice: {
+        color: 'white',
+        fontSize: 18
+
+    },
+    city: {
+        marginLeft: '5%',
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 30
     }
 
 })
