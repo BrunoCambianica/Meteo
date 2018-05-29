@@ -10,7 +10,7 @@ export default class Effects extends React.Component {
         this.state = {
             pan: new Animated.ValueXY({x: width, y: 0})
         }
-        console.log('effects' + width)
+        // console.log('effects' + width)
     }
 
     componentDidMount(){

@@ -18,11 +18,11 @@ export default class Row extends React.Component {
         }
     }
 
-    static propTypes = {
-        // day: React.propTypes.object,
-        // index: React.propTypes.number
+    // static propTypes = {
+    //     day: React.propTypes.object,
+    //     index: React.propTypes.number
 
-    }
+    // }
 
     day() {
         let day = moment(this.props.day.dt * 1000).format('ddd')
@@ -101,42 +101,40 @@ export default class Row extends React.Component {
         )
     }
 
-    background() {
-        const type = this.props.day.weather[0].main.toLowerCase()
-        let image
-        switch (type) {
-            case 'clear':
-                color = '#b3d9ff'
-                break;
-            case 'rain':
-                color = 'grey'
-                break;
-            case 'snow':
-                color = '#e6e6e6'
-                break;
-            case 'clouds':
-                color = 'lightgrey'
-                break;
-
-            default:
-                break;
-        }
-        return (
-            { backgroundColor: color }
-        )
-    }
+    // background() {
+    //     const type = this.props.day.weather[0].main.toLowerCase()
+    //     switch (type) {
+    //         case 'clear':
+    //             color = '#b3d9ff'
+    //             break;
+    //         case 'rain':
+    //             color = 'grey'
+    //             break;
+    //         case 'snow':
+    //             color = '#e6e6e6'
+    //             break;
+    //         case 'clouds':
+    //             color = 'lightgrey'
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    //     return (
+    //         { backgroundColor: color }
+    //     )
+    // }
 
     render() {
         // Meteo instantanée ici
         if (this.props.index === 0) {
             return (
                 <Effects delay={this.props.index * 50}>
-                    <View style={this.background()}>
-                        {this.iconFirst(widthI = this.state.widthScreen, heightI = this.state.heightScreen / 1.4)}
+                    <View>
+                        {this.iconFirst(widthI = this.state.widthScreen, heightI = this.state.heightScreen * 0.845)}
                         <View style={[style.first, { position: 'absolute', top: 0, left: 0, flex: 1, flexDirection: 'column' }]}>
-                            <Text style={style.city}>
-                                 {this.state.city}
-                            </Text>
+                            {/* <Text style={style.city}>
+                                {this.state.city}
+                            </Text> */}
                             <Text style={[style.day]}>
                                 {this.day()} {this.date()}
                             </Text>
@@ -189,9 +187,6 @@ export default class Row extends React.Component {
 }
 
 const style = StyleSheet.create({
-    background: {
-        backgroundColor: 'skyblue'
-    },
     hour: {
         fontSize: 20,
         fontWeight: 'bold'
@@ -239,7 +234,7 @@ const style = StyleSheet.create({
         fontSize: 28
     },
     day: {
-        marginTop: '42%',
+        marginTop: '50%',
         marginLeft: '27%',
         color: 'white',
         fontWeight: 'normal',
@@ -260,11 +255,11 @@ const style = StyleSheet.create({
         fontSize: 18
 
     },
-    city: {
-        marginLeft: '5%',
-        color: 'white',
-        fontWeight: 'bold',
-        fontSize: 30
-    }
+    // city: {
+    //     marginLeft: '2%',
+    //     color: 'white',
+    //     fontWeight: 'bold',
+    //     fontSize: 20
+    // }
 
 })

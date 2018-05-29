@@ -9,15 +9,12 @@ class Search extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            city: 'Paris'
+            city: 'Montigny-lès-cormeilles'
         }
     }
 
     static navigationOptions = {
-        title: 'Rechercher une ville',
-        tabBarIcon: () => {
-            <Image source={require('../images/search.png')}> </Image>
-        }
+        title: 'Rechercher une ville'
     }
 
     setCity(city) {
@@ -47,18 +44,32 @@ class Search extends React.Component {
     }
 }
 
-const navigationOptions = {
-    headerStyle: style.header,
-    headerTitleStyle: style.headerTitle,
-    headerMode: 'none',
-    headerVisible: false,
+// const navigationOptions = {
+    // headerStyle: style.header,
+    // headerTitleStyle: style.headerTitle,
+    // headerMode: 'none',
+    // headerVisible: false,
     // headerMode: 'none',
     // navigationOptions: {
     //     headerVisible: false,
     // }
-}
+// }
 
 export default createStackNavigator({
-    Search: { screen: Search, navigationOptions },
-    Result: { screen: List, navigationOptions },
+    Search: { screen: Search },
+    Result: { screen: List },
+// },
+//     {
+//         header: {
+//             style: {
+//                 position: 'absolute',
+//                 backgroundColor: 'transparent',
+//                 zIndex: 100,
+//                 top: 0,
+//                 left: 0,
+//                 right: 0
+//             }
+//         }
+//         // headerMode: 'none',
+//     }
 })

@@ -30,20 +30,38 @@ import Search from './components/Search'
 
 const Tabs = createStackNavigator({
   Search: { screen: Search },
-  About: { screen: About },
+  // About: { screen: About },
 },
   {
     header: null,
     headerMode: 'none',
     navigationOptions: {
-      headerMode: 'none',
-      headerVisible: false,
+      title: 'Bonjourrr',
+      headerTintColor: 'blue',
+      // headerMode: 'none',
+      // headerVisible: false,
     }
-
   }
+  // {
+  // header: null,
+  // headerMode: 'none',
+  // navigationOptions: {
+  //   headerMode: 'none',
+  //   headerVisible: false,
+  // }
+
+  // }
 )
 
+const navigationOptions = {
+  headerMode: 'none',
+  headerVisible: false,
+}
+
 export default class App extends React.Component {
+
+
+
   render() {
     return (
       <View style={{ flex: 1 }}>
