@@ -1,10 +1,10 @@
 import React from 'react'
-import { StyleSheet, Text, View, StatusBar } from 'react-native'
+import { StyleSheet, Text, View, StatusBar, Button } from 'react-native'
 import { TabNavigator, StackNavigator, StackNavigatorConfig, createStackNavigator } from 'react-navigation'
-// import { Easing } from 'react-vr'
 
 import About from './components/About'
 import Search from './components/Search'
+import Geolocation from './components/Geolocation'
 
 // const Tabs = TabNavigator({
 //   Search: { screen: Search },
@@ -30,17 +30,18 @@ import Search from './components/Search'
 
 const Tabs = createStackNavigator({
   Search: { screen: Search },
+  Geolocation: { screen: Geolocation}
   // About: { screen: About },
 },
   {
     header: null,
     headerMode: 'none',
-    navigationOptions: {
-      title: 'Bonjourrr',
-      headerTintColor: 'blue',
+    // navigationOptions: {
+    //   title: 'Bonjourrr',
+    //   headerTintColor: 'blue',
       // headerMode: 'none',
       // headerVisible: false,
-    }
+    // }
   }
   // {
   // header: null,
@@ -61,6 +62,10 @@ const navigationOptions = {
 export default class App extends React.Component {
 
 
+  goToGeolocation(){
+    this.props.navigation.navigate('Geolocation')
+
+  }
 
   render() {
     return (
