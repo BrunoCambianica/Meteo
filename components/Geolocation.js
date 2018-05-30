@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, Text, View, StyleSheet } from 'react-native';
+import { Platform, Text, View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Constants, Location, Permissions } from 'expo';
 import Geocoder from 'react-native-geocoding'
 
@@ -21,10 +21,10 @@ export default class App extends Component {
                 // var addressComponent = json.results[0].address_components[0];
                 var addressComponent = json.results[0].formatted_address;
 
-                alert(addressComponent);
-                this.setState = {
+                // alert(addressComponent);
+                this.setState({
                     city: addressComponent
-                }
+                })
             })
             .catch(error => console.warn(error));
 
@@ -72,17 +72,17 @@ export default class App extends Component {
 
         if (this.state.city === null) {
             return (
-                <View>
-                    <Text>coordonnées : {text}</Text>
-                    <Text>Nous cherchons la ville  {this.state.city} </Text>
+                <View style={{ justifyContent: 'space-between' }}>
+                    <Text>Localisation en cours... Veuillez patienter </Text>
+                    <ActivityIndicator size='large' />
                 </View>
             )
         }
         else if (this.state.city !== null) {
             return (
                 <View>
-                    <Text>coordonnées : {text}</Text>
-                    <Text>La ville ici :  {this.state.city} </Text>
+                    {/* <Text>coordonnées : {text}</Text> */}
+                    <Text>{this.state.city}</Text>
                 </View>
             )
         }
