@@ -7,6 +7,7 @@ export default class App extends Component {
     state = {
         location: null,
         errorMessage: null,
+        fullAdress: null,
         city: null,
         longitude: 0,
         latitude: 0,
@@ -14,16 +15,14 @@ export default class App extends Component {
 
     getCityNameByLondLat() {
         Geocoder.init('AIzaSyDR1izCUQNwthR7sBQtoqDL_IEggmLUug8');
-
-        // console.log('longitude' + this.state.locationcoords.longitude)
         Geocoder.from(this.state.latitude, this.state.longitude)
             .then(json => {
-                // var addressComponent = json.results[0].address_components[0];
                 var addressComponent = json.results[0].formatted_address;
-
-                // alert(addressComponent);
+                var longName = json.results[0].address_components[2].long_name
+                // console.log(json.results[0].address_components[2].long_name)
                 this.setState({
-                    city: addressComponent
+                    fullAdress: addressComponent,
+                    city: longName,
                 })
             })
             .catch(error => console.warn(error));
@@ -32,13 +31,7 @@ export default class App extends Component {
 
 
     componentWillMount() {
-        // if (Platform.OS === 'android' && !Constants.isDevice) {
-        //     this.setState({
-        //         errorMessage: "Ca ne arche que sur un portable pas d'émulateur ici!"
-        //     });
-        // } else {
         this._getLocationAsync();
-        // }
     }
 
     _getLocationAsync = async () => {
@@ -56,9 +49,9 @@ export default class App extends Component {
             latitude: this.state.location.coords.latitude
         })
         this.getCityNameByLondLat()
-        console.log('location' + JSON.stringify(this.state.location))
-        console.log('longitude' + JSON.stringify(this.state.longitude))
-        console.log('latitude' + JSON.stringify(this.state.latitude))
+        // console.log('location' + JSON.stringify(this.state.location))
+        // console.log('longitude' + JSON.stringify(this.state.longitude))
+        // console.log('latitude' + JSON.stringify(this.state.latitude))
 
     };
 
@@ -81,21 +74,10 @@ export default class App extends Component {
         else if (this.state.city !== null) {
             return (
                 <View>
-                    {/* <Text>coordonnées : {text}</Text> */}
                     <Text>{this.state.city}</Text>
                 </View>
             )
         }
 
-    }
-}
-
-async function getLocationAsync() {
-    const { Location, Permissions } = Expo;
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === 'granted') {
-        return Location.getCurrentPositionAsync({ enableHighAccuracy: true });
-    } else {
-        throw new Error('Location permission not granted');
     }
 }
