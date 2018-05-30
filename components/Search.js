@@ -10,7 +10,8 @@ class Search extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            city: 'Montigny-lès-cormeilles'
+            city: null,
+            cityFromGeolocation: null,
         }
     }
 
@@ -26,32 +27,57 @@ class Search extends React.Component {
         this.props.navigation.navigate('Result', { city: this.state.city })
     }
 
-    goToGeolocation() {
-        this.props.navigation.navigate('Result2')
+    submitGeolocation() {
+        this.props.navigation.navigate('Result', { city: this.state.cityFromGeolocation })
     }
 
-    render() {
-        return (
-            <View style={style.container}>
-                <TextInput
-                    underlineColorAndroid='transparent'
-                    style={style.input}
-                    value={this.state.city}
-                    onChangeText={(text) => this.setCity(text)}
-                />
-                <Button
-                    color={style.color}
-                    title='Rechercher une ville'
-                    onPress={() => this.submit()}
-                />
-                <Button
-                    // color={style= {color: 'red'}}
-                    title='Geolocalisation'
-                    onPress={() => this.goToGeolocation()}
-                />
+    getCity(city) {
+        this.setState({
+            cityFromGeolocation: city
+        })
+    }
 
-            </View>
-        )
+    // goToGeolocation() {
+    //     this.props.navigation.navigate('Result2')
+    // }
+
+
+    render() {
+        if (this.state.cityFromGeolocation === null) {
+            return (
+                <View style={style.container}>
+                    <TextInput
+                        underlineColorAndroid='transparent'
+                        style={style.input}
+                        value={this.state.city}
+                        onChangeText={(text) => this.setCity(text)}
+                    />
+                    <Button
+                        color={style.color}
+                        title='Rechercher une ville'
+                        onPress={() => this.submit()}
+                    />
+                    <Geolocation style={{ marginTop: 15 }} sendCity={this.getCity.bind(this)} />
+                </View>
+            )
+        } else if (this.state.cityFromGeolocation !== null) {
+            return (
+                <View style={style.container}>
+                    <TextInput
+                        underlineColorAndroid='transparent'
+                        style={style.input}
+                        value={this.state.city}
+                        onChangeText={(text) => this.setCity(text)}
+                    />
+                    <Button
+                        color={style.color}
+                        title='Rechercher une ville'
+                        onPress={() => this.submit()}
+                    />
+                    <Geolocation style={{ marginTop: 15 }} sendCity={this.getCity.bind(this)} onPress = {() => {this.setState({city: cityFromGeolocation})}} />
+                </View>
+            )
+        }
     }
 }
 
@@ -69,7 +95,7 @@ class Search extends React.Component {
 export default createStackNavigator({
     Search: { screen: Search },
     Result: { screen: List },
-    Result2: { screen: Geolocation}
+    Result2: { screen: Geolocation }
     // },
     //     {
     //         header: {
