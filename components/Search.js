@@ -35,6 +35,8 @@ class Search extends React.Component {
         this.setState({
             cityFromGeolocation: city
         })
+        console.log('getCity cfg ' + this.state.cityFromGeolocation)
+        console.log('getCity c ' + this.state.city)
     }
 
     // goToGeolocation() {
@@ -43,7 +45,6 @@ class Search extends React.Component {
 
 
     render() {
-        if (this.state.cityFromGeolocation === null) {
             return (
                 <View style={style.container}>
                     <TextInput
@@ -57,27 +58,12 @@ class Search extends React.Component {
                         title='Rechercher une ville'
                         onPress={() => this.submit()}
                     />
-                    <Geolocation style={{ marginTop: 15 }} sendCity={this.getCity.bind(this)} />
+                    <Geolocation 
+                        sendCity={this.getCity.bind(this)} 
+                        onPress= {() => { this.setState({ city: this.state.cityFromGeolocation }) + console.log('cfg ' + this.state.cityFromGeolocation) + console.log('c' + this.state.city)}}
+                    />
                 </View>
             )
-        } else if (this.state.cityFromGeolocation !== null) {
-            return (
-                <View style={style.container}>
-                    <TextInput
-                        underlineColorAndroid='transparent'
-                        style={style.input}
-                        value={this.state.city}
-                        onChangeText={(text) => this.setCity(text)}
-                    />
-                    <Button
-                        color={style.color}
-                        title='Rechercher une ville'
-                        onPress={() => this.submit()}
-                    />
-                    <Geolocation style={{ marginTop: 15 }} sendCity={this.getCity.bind(this)} onPress = {() => {this.setState({city: cityFromGeolocation})}} />
-                </View>
-            )
-        }
     }
 }
 

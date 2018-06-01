@@ -51,6 +51,7 @@ export default class App extends Component {
 
     sendCityToSearch(city) {
         this.props.sendCity(city)
+        this.props.onPress()
     }
 
     render() {
@@ -61,10 +62,15 @@ export default class App extends Component {
         }
         else if (this.state.city !== null) {
             return (
+                <View>
+
                 <Button
                     title = 'Localise moi stp'
-                    onPress={() => { this.sendCityToSearch(this.state.city) }}
+                    onPress={() => { this.sendCityToSearch(this.state.city)}}
+                    // onPress={this.props.onPress}
                 />
+                {/* <Text>{this.state.city}</Text> */}
+                </View>
             )
         }
 
