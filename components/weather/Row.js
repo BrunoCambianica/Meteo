@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, Image, Dimensions, AsyncStorage, TouchableHighlight } from 'react-native'
 import Effects from '../Effects'
 import moment from 'moment'
 import 'moment/locale/fr'
@@ -101,28 +101,31 @@ export default class Row extends React.Component {
         )
     }
 
-    // background() {
-    //     const type = this.props.day.weather[0].main.toLowerCase()
-    //     switch (type) {
-    //         case 'clear':
-    //             color = '#b3d9ff'
-    //             break;
-    //         case 'rain':
-    //             color = 'grey'
-    //             break;
-    //         case 'snow':
-    //             color = '#e6e6e6'
-    //             break;
-    //         case 'clouds':
-    //             color = 'lightgrey'
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    //     return (
-    //         { backgroundColor: color }
-    //     )
-    // }
+    async onPressFavorite(){
+        console.log('joli press')
+        try {
+            await AsyncStorage.setItem('faoritesCities', this.state.city);
+          } catch (error) {
+            console.log('error saving data ')
+          }
+    }
+
+    async getFavorites() {
+        console.log('getting favorites')
+        try {
+            const value = await AsyncStorage.getItem('faoritesCities');
+            if (value !== null) {
+                console.log(value);
+                return('test')
+            }
+        } catch (error) {
+            // Error retrieving data
+            return(error + 'err')
+        }
+
+    }
+
+
 
     render() {
         // Meteo instantanée ici
@@ -131,6 +134,10 @@ export default class Row extends React.Component {
                 <Effects delay={this.props.index * 50}>
                     <View>
                         {this.iconFirst(widthI = this.state.widthScreen, heightI = this.state.heightScreen * 0.845)}
+                        <TouchableHighlight onPress={this.onPressFavorite.bind(this)} style = {{position: 'absolute', top: 20, right: 20 }}>
+                            <Image source={require('../../images/png/first/favorites.png')} style={{ width: 35, height: 35}} />
+                        </TouchableHighlight>
+
                         <View style={[style.first, { position: 'absolute', top: 0, left: 0, flex: 1, flexDirection: 'column' }]}>
                             {/* <Text style={style.city}>
                                 {this.state.city}

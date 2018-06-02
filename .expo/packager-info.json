@@ -1,8 +1,8 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 15684,
-  "expoServerNgrokUrl": "https://3b-sva.brunoynov.meteo.exp.direct",
-  "packagerNgrokUrl": "https://packager.3b-sva.brunoynov.meteo.exp.direct",
-  "ngrokPid": 11820
+  "packagerPid": 11380,
+  "expoServerNgrokUrl": "https://6p-hrb.brunoynov.meteo.exp.direct",
+  "packagerNgrokUrl": "https://packager.6p-hrb.brunoynov.meteo.exp.direct",
+  "ngrokPid": 13892
 }
