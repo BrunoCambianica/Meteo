@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Platform, Text, View, StyleSheet, ActivityIndicator, Button } from 'react-native'
 import { Constants, Location, Permissions } from 'expo'
-import Geocoder from 'react-native-geocoding'
+// import Geocoder from 'react-native-geocoder'
 
 export default class App extends Component {
     state = {
@@ -9,24 +9,9 @@ export default class App extends Component {
         errorMessage: null,
         fullAdress: null,
         city: null,
-        longitude: 0,
-        latitude: 0,
+        lng: 0,
+        lat: 0,
     }
-
-    getCityNameByLondLat() {
-        Geocoder.init('AIzaSyDR1izCUQNwthR7sBQtoqDL_IEggmLUug8')
-        Geocoder.from(this.state.latitude, this.state.longitude)
-            .then(json => {
-                var addressComponent = json.results[0].formatted_address
-                var longName = json.results[0].address_components[2].long_name
-                this.setState({
-                    fullAdress: addressComponent,
-                    city: longName,
-                })
-            })
-            .catch(error => console.warn(error))
-    }
-
 
     componentWillMount() {
         this._getLocationAsync()
@@ -43,10 +28,54 @@ export default class App extends Component {
         let location = await Location.getCurrentPositionAsync({})
         this.setState({ location })
         this.setState({
-            longitude: this.state.location.coords.longitude,
-            latitude: this.state.location.coords.latitude
+            lng: this.state.location.coords.longitude,
+            lat: this.state.location.coords.latitude
         })
         this.getCityNameByLondLat()
+    }
+
+    // getCityNameByLondLat() {
+    //     let coordinates = {
+    //         lat: this.state.lat,
+    //         lng: this.state.lng
+    //     }
+    //     console.log(coordinates)
+
+    //     Geocoder.fallbackToGoogle('AIzaSyBKt1okBA4C9dwzqiYZMcS44VPywiT7XLU')
+    //     Geocoder.geocodePosition(coordinates)
+    //         .then(json => {
+    //             var addressComponent = json.results[0].formatted_address
+    //             var longName = json.results[0].address_components[2].long_name
+    //             console.log('geocoder var : ' + longName)
+    //             this.setState({
+    //                 fullAdress: addressComponent,
+    //                 city: longName,
+    //             })
+    //         })
+    //         .catch(error => console.warn(error))
+    // }
+
+    getCityNameByLondLat = async() => {
+        let coordinates = {
+            latitude : this.state.lat,
+            longitude : this.state.lng
+        }
+
+        Location.setApiKey('AIzaSyBKt1okBA4C9dwzqiYZMcS44VPywiT7XLU')
+        let address = await Location.reverseGeocodeAsync(coordinates)
+
+        
+        this.setState({
+            number : address[0].name,
+            city : address[0].city,
+            street : address[0].street,
+            country : address[0].country,
+            region: address[0].region,
+            postalCode: address[0].postalCode,
+            fullAdress: `${this.state.number} ${this.state.street} ${this.state.city} ${this.state.postalCode}`
+        })
+
+        // console.log(this.state.city)
     }
 
     sendCityToSearch(city) {
@@ -64,17 +93,17 @@ export default class App extends Component {
             return (
                 <View>
 
-                <Button
-                    title = 'Localise moi stp'
-                    onPress={() => { this.sendCityToSearch(this.state.city)}}
+                    <Button
+                        title='Me localiser'
+                        onPress={() => { this.sendCityToSearch(this.state.city) }}
                     // onPress={this.props.onPress}
-                />
-                {/* <Text>{this.state.city}</Text> */}
+                    />
+                    {/* <Text>{this.state.city}</Text> */}
                 </View>
             )
         }
 
-                // let text = 'ATTENDS..'
+        // let text = 'ATTENDS..'
         // if (this.state.errorMessage) {
         //     text = this.state.errorMessage
         // } else if (this.state.location) {

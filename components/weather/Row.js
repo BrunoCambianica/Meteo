@@ -101,27 +101,41 @@ export default class Row extends React.Component {
         )
     }
 
-    async onPressFavorite(){
-        console.log('joli press')
-        try {
-            await AsyncStorage.setItem('faoritesCities', this.state.city);
-          } catch (error) {
-            console.log('error saving data ')
-          }
-    }
+    async addFavorites() {
+        console.log('adding favorites')
 
-    async getFavorites() {
-        console.log('getting favorites')
-        try {
-            const value = await AsyncStorage.getItem('faoritesCities');
-            if (value !== null) {
-                console.log(value);
-                return('test')
-            }
-        } catch (error) {
-            // Error retrieving data
-            return(error + 'err')
-        }
+        AsyncStorage.setItem(this.state.city, this.state.city)
+        // try {
+        //     const value = await AsyncStorage.getItem('favoritesCities');
+
+
+        //     console.log(value + 'values du get dans Row')
+
+
+
+        //     if (value !== null) {
+        //         //reste à parcourir le tableau et verifier si la ville n'y est pas déjà
+        //         AsyncStorage.mergeItem(this.state.city, this.state.city)
+
+
+
+        //         console.log(value + 'values du merge dans Row')
+
+
+
+        //     } else if (value === null){
+        //         AsyncStorage.setItem(this.state.city, this.state.city)
+
+
+
+        //         console.log(value + 'values du set dans Row')
+
+
+
+        //     }
+        // } catch (error) {
+        //     return(error + 'err')
+        // }
 
     }
 
@@ -134,7 +148,7 @@ export default class Row extends React.Component {
                 <Effects delay={this.props.index * 50}>
                     <View>
                         {this.iconFirst(widthI = this.state.widthScreen, heightI = this.state.heightScreen * 0.845)}
-                        <TouchableHighlight onPress={this.onPressFavorite.bind(this)} style = {{position: 'absolute', top: 20, right: 20 }}>
+                        <TouchableHighlight onPress={this.addFavorites.bind(this)} style = {{position: 'absolute', top: 20, right: 20 }}>
                             <Image source={require('../../images/png/first/favorites.png')} style={{ width: 35, height: 35}} />
                         </TouchableHighlight>
 

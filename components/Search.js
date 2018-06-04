@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextInput, Image, View, Button, AsyncStorage, Text } from 'react-native'
+import { TextInput, Image, View, Button, AsyncStorage, Text, ListView } from 'react-native'
 import style from '../Style'
 import { StackNavigator, createStackNavigator } from 'react-navigation';
 import List from './List'
@@ -12,13 +12,6 @@ class Search extends React.Component {
         this.state = {
             city: null,
             cityFromGeolocation: null,
-            cities: [
-                { key: 0, name: 'Paris' },
-                { key: 1, name: 'Londres' },
-                { key: 2, name: 'Berlin' },
-                { key: 3, name: 'Nanterre' }
-            ],
-            values: null
         }
     }
 
@@ -34,9 +27,9 @@ class Search extends React.Component {
         this.props.navigation.navigate('Result', { city: this.state.city })
     }
 
-    submitGeolocation() {
-        this.props.navigation.navigate('Result', { city: this.state.cityFromGeolocation })
-    }
+    // submitGeolocation() {
+    //     this.props.navigation.navigate('Result', { city: this.state.cityFromGeolocation })
+    // }
 
     getCity(city) {
         this.setState({
@@ -51,30 +44,93 @@ class Search extends React.Component {
     // }
 
     async getFavorites() {
-        console.log('getting favorites')
+        console.log('getting favorites in search')
         try {
-            const value = await AsyncStorage.getItem('faoritesCities');
+            const value = await AsyncStorage.getAllKeys();
             if (value !== null) {
-                console.log(value);
-                this.setState({
-                    values: value
-                })
+                if (this.state.values) {
+                    console.log('SearchgetFavs  ' + value + ' et le state ' + this.state.values )
+                    this.setState({
+                        values: [...this.state.values, value]
+                    })
+                    // console.log('values state : ' + this.state.values)
+                } else {
+                    this.setState({
+                        values: value
+                    })
+                }
             }
         } catch (error) {
-            // Error retrieving data
-            console.log('rien ici');
             return (error + 'err')
         }
 
     }
+    //     try {
+    //         const value = await AsyncStorage.getItem('favoritesCities');
+    //         if (value !== null) {
 
-    componentWillMount() {
+
+
+    //             console.log('SearchgetFavs' + value)
+
+
+
+    //             this.setState({
+    //                 values: value
+    //             })
+    //         } else {
+    //             this.setState({
+    //                 values: null
+    //             })
+    //         }
+    //     } catch (error) {
+    //         console.log('rien ici');
+    //         return (error + 'err')
+    //     }
+
+    // }
+
+    removeFavorites() {
+        console.log('clearing favorites')
+        AsyncStorage.clear()
+    }
+
+    renderFavorites() {
+        if (this.state.values) {
+            return (
+                <View>
+                    {/* {
+                        console.log(this.state.values) +
+                        this.state.values.map((city, key) => (
+                        <Text key={key} > {city} </Text>)
+                    )} */}
+                </View>
+            )
+        } else {
+            return (
+                <View>
+                    <Text>
+                        Vous n'avez pas de favoris
+                    </Text>
+
+
+                </View>
+            )
+        }
+    }
+
+    componentDidMount() {
         this.getFavorites()
     }
-    componentDidUpdate(){
-        this.getFavorites()
-    }
-    
+
+    // componentWillMount() {
+    //     this.getFavorites()
+    // }
+
+    // componentDidUpdate() {
+    //     this.getFavorites()
+    // }
+
     render() {
         return (
             <View style={style.container}>
@@ -92,20 +148,18 @@ class Search extends React.Component {
                     />
                     <Geolocation
                         sendCity={this.getCity.bind(this)}
-                        onPress={() => { this.setState({ city: this.state.cityFromGeolocation }) + {/*+ console.log('cfg ' + this.state.cityFromGeolocation) + console.log('c' + this.state.city) */ } }}
+                        onPress={() => { this.setState({ city: this.state.cityFromGeolocation }) }}
                     />
                 </View>
-                <View>
-                    {
-                        this.state.cities.map(c => <Text key={c.key}> {c.name} </Text>)
-                    }
-                </View>
-                <View>
-                    <Text>
-                        {this.state.values}
-                    </Text>
-                </View>
-
+                <Button
+                    title='Supprimer mes favoris'
+                    onPress={() => { this.removeFavorites() }}
+                />
+                <Button
+                    title='actualiser'
+                    onPress={() => { this.getFavorites() }}
+                />
+                {this.renderFavorites()}
             </View>
         )
     }
@@ -125,7 +179,7 @@ class Search extends React.Component {
 export default createStackNavigator({
     Search: { screen: Search },
     Result: { screen: List },
-    Result2: { screen: Geolocation }
+    // Result2: { screen: Geolocation }
     // },
     //     {
     //         header: {
