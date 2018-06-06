@@ -21,6 +21,15 @@ export default {
     },
     headerTitle: {
         color: 'white'
+    },
+    favoritesText:{
+        backgroundColor: 'skyblue',
+    },
+    favoritesView:{
+        flex: 1,
+        flexDirection: 'row',
+        marginVertical: 10,
+         
     }
 
 }

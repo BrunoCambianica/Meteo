@@ -63,7 +63,6 @@ export default class App extends Component {
 
         Location.setApiKey('AIzaSyBKt1okBA4C9dwzqiYZMcS44VPywiT7XLU')
         let address = await Location.reverseGeocodeAsync(coordinates)
-
         
         this.setState({
             number : address[0].name,
@@ -74,7 +73,6 @@ export default class App extends Component {
             postalCode: address[0].postalCode,
             fullAdress: `${this.state.number} ${this.state.street} ${this.state.city} ${this.state.postalCode}`
         })
-
         // console.log(this.state.city)
     }
 
@@ -92,7 +90,6 @@ export default class App extends Component {
         else if (this.state.city !== null) {
             return (
                 <View>
-
                     <Button
                         title='Me localiser'
                         onPress={() => { this.sendCityToSearch(this.state.city) }}

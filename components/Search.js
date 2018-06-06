@@ -4,6 +4,7 @@ import style from '../Style'
 import { StackNavigator, createStackNavigator } from 'react-navigation';
 import List from './List'
 import Geolocation from './Geolocation'
+import Favorites from './Favorites'
 
 class Search extends React.Component {
 
@@ -12,6 +13,7 @@ class Search extends React.Component {
         this.state = {
             city: null,
             cityFromGeolocation: null,
+            values: null,
         }
     }
 
@@ -43,85 +45,46 @@ class Search extends React.Component {
     //     this.props.navigation.navigate('Result2')
     // }
 
-    async getFavorites() {
-        console.log('getting favorites in search')
-        try {
-            const value = await AsyncStorage.getAllKeys();
-            if (value !== null) {
-                if (this.state.values) {
-                    console.log('SearchgetFavs  ' + value + ' et le state ' + this.state.values )
-                    this.setState({
-                        values: [...this.state.values, value]
-                    })
-                    // console.log('values state : ' + this.state.values)
-                } else {
-                    this.setState({
-                        values: value
-                    })
-                }
-            }
-        } catch (error) {
-            return (error + 'err')
-        }
-
-    }
-    //     try {
-    //         const value = await AsyncStorage.getItem('favoritesCities');
-    //         if (value !== null) {
-
-
-
-    //             console.log('SearchgetFavs' + value)
-
-
-
-    //             this.setState({
-    //                 values: value
-    //             })
-    //         } else {
-    //             this.setState({
-    //                 values: null
-    //             })
-    //         }
-    //     } catch (error) {
-    //         console.log('rien ici');
-    //         return (error + 'err')
-    //     }
-
-    // }
-
     removeFavorites() {
         console.log('clearing favorites')
         AsyncStorage.clear()
     }
 
-    renderFavorites() {
-        if (this.state.values) {
-            return (
-                <View>
-                    {/* {
-                        console.log(this.state.values) +
-                        this.state.values.map((city, key) => (
-                        <Text key={key} > {city} </Text>)
-                    )} */}
-                </View>
-            )
-        } else {
-            return (
-                <View>
-                    <Text>
-                        Vous n'avez pas de favoris
-                    </Text>
+
+    
+    // async renderFavorites() {
+    //     const value = await AsyncStorage.getAllKeys()
+    //     if (value !== null) {
+    //         return (
+    //             <View>
+    //                 {
+    //                     this.state.value.map((city, key) => (
+    //                         <View key={key}>
+    //                             <Text style={style.favorites}>
+    //                                 {city}
+    //                             </Text>
+    //                         </View>
+    //                     ))}
+    //             </View>
+    //         )
+    //     } else {
+    //         return (
+    //             <View>
+    //                 <Text>
+    //                     Vous n'avez pas de favoris
+    //                 </Text>
 
 
-                </View>
-            )
-        }
-    }
+    //             </View>
+    //         )
+    //     }
+    // }
 
     componentDidMount() {
-        this.getFavorites()
+        // this.getFavorites()
     }
+
+    
 
     // componentWillMount() {
     //     this.getFavorites()
@@ -155,11 +118,11 @@ class Search extends React.Component {
                     title='Supprimer mes favoris'
                     onPress={() => { this.removeFavorites() }}
                 />
-                <Button
+                {/* <Button
                     title='actualiser'
-                    onPress={() => { this.getFavorites() }}
-                />
-                {this.renderFavorites()}
+                    // onPress={() => { this.getFavorites() }}
+                /> */}
+                <Favorites />
             </View>
         )
     }
